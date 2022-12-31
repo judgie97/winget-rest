@@ -446,9 +446,9 @@ export const InstallerSchemaSchema = z
 export const ManifestSchemaVersionSchema = z.object({
   PackageVersion: PackageVersionSchema,
   DefaultLocale: DefaultLocaleSchema,
-  Channel: ChannelSchema,
-  Locales: z.array(OptionalLocaleSchema),
-  Installers: z.array(InstallerSchemaSchema),
+  Channel: ChannelSchema.optional(),
+  Locales: z.array(OptionalLocaleSchema).optional(),
+  Installers: z.array(InstallerSchemaSchema).optional(),
 });
 
 export const ManifestSchemaSchema = z
@@ -560,10 +560,10 @@ export const ManifestMultipleResponseSchemaSchema = z
 
 export const ManifestSingleResponseSchemaSchema = z
   .object({
-    Data: z.array(ManifestSchemaSchema),
+    Data: ManifestSchemaSchema,
     ContinuationToken: ContinuationTokenSchema,
-    UnsupportedQueryParameters: QueryParameterArraySchema,
-    RequiredQueryParameters: QueryParameterArraySchema,
+    UnsupportedQueryParameters: QueryParameterArraySchema.optional(),
+    RequiredQueryParameters: QueryParameterArraySchema.optional(),
   })
   .strict();
 
@@ -645,6 +645,14 @@ export const ErrorSchema = z
   })
   .strict();
 
+export const ManifestVersionSchemaSchema = z.object({
+  PackageVersion: PackageVersionSchema,
+  DefaultLocale: DefaultLocaleSchema,
+  Channel: ChannelSchema.optional(),
+  Locales: z.array(OptionalLocaleSchema).optional(),
+  Installers: z.array(InstallerSchemaSchema).optional(),
+});
+
 //TYPES
 
 export type PackageManifest = z.infer<typeof ManifestSchemaSchema>;
@@ -658,6 +666,11 @@ export type ManifestSearchVersionSchema = z.infer<
 >;
 
 export type ManifestSchemaVersion = z.infer<typeof ManifestSchemaVersionSchema>;
+
+export type ManifestVersionSchema = z.infer<typeof ManifestVersionSchemaSchema>;
+export type ManifestSingleResponse = z.infer<
+  typeof ManifestSingleResponseSchemaSchema
+>;
 
 //CONVERSIONS
 export const CreateManifestSearchVersionSchema = (
@@ -686,6 +699,31 @@ export const CreateManifestSearchResponseSchema = (
     PackageName:
       packageManifest.Versions?.at(0)?.DefaultLocale.PackageName ?? "",
     Publisher: packageManifest.Versions?.at(0)?.DefaultLocale.Publisher ?? "",
+    Versions: versions,
+  };
+};
+
+export const CreateManifestVersionSchema = (
+  version: ManifestSchemaVersion
+): ManifestVersionSchema => {
+  return {
+    PackageVersion: version.PackageVersion,
+    DefaultLocale: version.DefaultLocale,
+    Channel: version.Channel,
+    Locales: version.Locales,
+    Installers: version.Installers,
+  };
+};
+
+export const CreatePackageManifestForSingleResponse = (
+  packageManifest: PackageManifest
+): PackageManifest => {
+  let versions = packageManifest.Versions?.map((v) =>
+    CreateManifestVersionSchema(v)
+  );
+
+  return {
+    PackageIdentifier: packageManifest.PackageIdentifier,
     Versions: versions,
   };
 };
