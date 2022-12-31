@@ -7,6 +7,7 @@ import {
   PackageMultipleResponseSchemaSchema,
   PackageSingleResponseSchemaSchema,
   VersionMultipleResponseSchemaSchema,
+  VersionSchemaSchema,
 } from "../api";
 import { z } from "zod";
 
@@ -136,6 +137,17 @@ export class PackagesRoutes extends CommonRoutesConfig {
         const packageIdentifier = req.params.packageIdentifier;
         const versionInformation = req.body;
         const packageVersion = versionInformation.PackageVersion;
+        try {
+          VersionSchemaSchema.parse(versionInformation);
+        } catch (err) {
+          if (err instanceof z.ZodError) {
+            console.log(err.issues);
+          }
+          res
+            .status(400)
+            .send({ ErrorCode: 0, ErrorMessage: "Invalid request body" });
+          return;
+        }
 
         let pack = await collections.manifests?.findOne({
           PackageIdentifier: packageIdentifier,
@@ -153,7 +165,7 @@ export class PackagesRoutes extends CommonRoutesConfig {
         res.status(201).send({ Data: versionInformation });
       });
 
-    /** this.app
+    this.app
       .route(`/packages/:packageIdentifier/versions/:versionIdentifier`)
       .get(async (req: express.Request, res: express.Response) => {
         const packageIdentifier = req.params.packageIdentifier;
@@ -177,7 +189,6 @@ export class PackagesRoutes extends CommonRoutesConfig {
           ]);
         }
       });
-      **/
 
     //------------------LOCALES------------------//
     this.app
