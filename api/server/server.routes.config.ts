@@ -13,7 +13,7 @@ export class ServerRoutes extends CommonRoutesConfig {
       .route(`/information`)
       .get((req: express.Request, res: express.Response) => {
         try {
-          const serverInformation: InformationResponse = {
+          const serverInformation = {
             Data: {
               SourceIdentifier: "Laptop",
               ServerSupportedVersions: ["1.1.0"],
