@@ -7,10 +7,13 @@ import cors from "cors";
 import { CommonRoutesConfig } from "./common/common.routes.config";
 import { UsersRoutes } from "./users/users.routes.config";
 import debug from "debug";
-import { ServerRoutes } from "./api/server/server.routes.config";
-import { PackagesRoutes } from "./api/packages/packages.routes.config";
+import { ServerRoutes } from "./api/server";
+import { PackagesRoutes } from "./api/packages";
+import { VersionsRoutes } from "./api/versions";
+import { InstallersRoutes } from "./api/installers";
+import { LocalesRoutes } from "./api/locales";
 import { connectToDatabase } from "./common/database";
-import { QueryRoutes } from "./api/query/query.routes.config";
+import { QueryRoutes } from "./api/query";
 
 const app: express.Application = express();
 const server: http.Server = http.createServer(app);
@@ -39,6 +42,9 @@ routes.push(new UsersRoutes(app));
 routes.push(new ServerRoutes(app));
 routes.push(new PackagesRoutes(app));
 routes.push(new QueryRoutes(app));
+routes.push(new InstallersRoutes(app));
+routes.push(new VersionsRoutes(app));
+routes.push(new LocalesRoutes(app));
 
 const runningMessage = `Server running at http://localhost:${port}`;
 app.get("/", (req: express.Request, res: express.Response) => {

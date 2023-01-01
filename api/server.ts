@@ -1,6 +1,6 @@
-import { CommonRoutesConfig } from "../../common/common.routes.config";
+import { CommonRoutesConfig } from "../common/common.routes.config";
 import express from "express";
-import { InformationResponseSchemaSchema } from "../api";
+import { InformationResponseSchemaSchema } from "./api";
 import { z } from "zod";
 
 export class ServerRoutes extends CommonRoutesConfig {

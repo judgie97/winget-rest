@@ -1,7 +1,7 @@
-import { CommonRoutesConfig } from "../../common/common.routes.config";
+import { CommonRoutesConfig } from "../common/common.routes.config";
 import express from "express";
 //import { ManifestSearchRequest, ManifestSearchResult } from "./query";
-import { collections } from "../../common/database";
+import { collections } from "../common/database";
 import {
   CreateManifestSearchResponseSchema,
   CreatePackageManifestForSingleResponse,
@@ -9,7 +9,7 @@ import {
   ManifestSearchResultSchemaSchema,
   ManifestSingleResponseSchemaSchema,
   PackageManifest,
-} from "../api";
+} from "./api";
 import { z } from "zod";
 
 export class QueryRoutes extends CommonRoutesConfig {
