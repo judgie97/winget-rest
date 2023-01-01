@@ -95,10 +95,15 @@ export class PackagesRoutes extends CommonRoutesConfig {
       })
       .delete(async (req: express.Request, res: express.Response) => {
         const packageIdentifier = req.params.packageIdentifier;
-        await collections.manifests?.deleteOne({
+        const dbResponse = await collections.manifests?.deleteOne({
           PackageIdentifier: packageIdentifier,
         });
-        res.status(204).send();
+        if (dbResponse?.deletedCount == 1) res.status(204).send();
+        else
+          res.status(404).send({
+            ErrorCode: 0,
+            ErrorMessage: "Package identifier not found",
+          });
       });
     return this.app;
   }

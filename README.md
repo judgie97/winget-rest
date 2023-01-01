@@ -24,7 +24,7 @@ Please do :)
 | POST   | /packages                                                                          | No Authentication      |
 | GET    | /packages                                                                          | Implemented            |
 | PUT    | /packages/packageIdentifier                                                        | No Implemetation       |
-| DELETE | /packages/packageIdentifier                                                        | No Implementation      |
+| DELETE | /packages/packageIdentifier                                                        | No Authentication      |
 | GET    | /packages/packageIdentifier                                                        | Implemented            |
 |        |                                                                                    |
 | POST   | /packages/packageIdentifier/versions                                               | No Authentication      |
