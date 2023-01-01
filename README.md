@@ -16,3 +16,39 @@ This is a work in progress and currently only has some of the GET requests parti
 ## Contributing
 
 Please do :)
+
+## API routes
+
+| Method | Route                                                                              | Status                 |
+| ------ | ---------------------------------------------------------------------------------- | ---------------------- |
+| POST   | /packages                                                                          | No Authentication      |
+| GET    | /packages                                                                          | Implemented            |
+| PUT    | /packages/packageIdentifier                                                        | No Implemetation       |
+| DELETE | /packages/packageIdentifier                                                        | No Implementation      |
+| GET    | /packages/packageIdentifier                                                        | Implemented            |
+|        |                                                                                    |
+| POST   | /packages/packageIdentifier/versions                                               | No Authentication      |
+| GET    | /packages/packageIdentifier/versions                                               | Implemented            |
+| PUT    | /packages/packageIdentifier/versions/packageVersion                                | No Implementation      |
+| DELETE | /packages/packageIdentifier/versions/packageVersion                                | No Implementation      |
+| GET    | /packages/packageIdentifier/versions/packageVersion                                | Implemented            |
+|        |                                                                                    |
+| POST   | /packages/packageIdentifier/versions/packageVersion/locales                        | No Implementation      |
+| GET    | /packages/packageIdentifier/versions/packageVersion/locales                        | No Implementation      |
+| PUT    | /packages/packageIdentifier/versions/packageVersion/locales/packageLocale          | No Implementation      |
+| DELETE | /packages/packageIdentifier/versions/packageVersion/locales/packageLocale          | No Implementation      |
+| GET    | /packages/packageIdentifier/versions/packageVersion/locales/packageLocale          | No Implementation      |
+|        |                                                                                    |
+| POST   | /packages/packageIdentifier/versions/packageVersion/installers                     | No Authentication      |
+| GET    | /packages/packageIdentifier/versions/packageVersion/installers                     | Implemented            |
+| PUT    | /packages/packageIdentifier/versions/packageVersion/installers/installerIdentifier | No Implementation      |
+| DELETE | /packages/packageIdentifier/versions/packageVersion/installers/installerIdentifier | No Implementation      |
+| GET    | /packages/packageIdentifier/versions/packageVersion/installers/installerIdentifier | No Implementation      |
+|        |                                                                                    |
+| POST   | /packageManifests                                                                  | No Implementation      |
+| PUT    | /packageManifests/packageIdentifier                                                | No Implementation      |
+| DELETE | /packageManifests/packageIdentifier                                                | No Implementation      |
+| GET    | /packageManifests/packageIdentifier                                                | No Implementation      |
+| POST   | /manifestSearch                                                                    | Partial Implementation |
+|        |                                                                                    |
+| GET    | /information                                                                       | Partial Implementation |
