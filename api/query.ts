@@ -25,9 +25,6 @@ export class QueryRoutes extends CommonRoutesConfig {
         try {
           const search = req.body;
           const query = ManifestSearchRequestSchemaSchema.parse(search);
-          console.log("-------------QUERY---------------------");
-          console.log(JSON.stringify(search, null, 2));
-          console.log("-------------QUERY---------------------");
 
           var orConditions: any = [];
 
@@ -47,9 +44,6 @@ export class QueryRoutes extends CommonRoutesConfig {
 
           //TODO make this support filters which are apparently a real thing?
           var condition: any = { $or: orConditions };
-          console.log("-------------mongo condition---------------------");
-          console.log(JSON.stringify(condition, null, 2));
-          console.log("-------------mongo condition---------------------");
 
           const packages = await collections.manifests
             ?.find(condition)
@@ -61,7 +55,6 @@ export class QueryRoutes extends CommonRoutesConfig {
             Data: msr,
             ContinuationToken: "",
           };
-          console.log("PARSING THE MANIFEST SEARCH RESULT SCHEMA SCHEMA");
           ManifestSearchResultSchemaSchema.parse(response);
           if (packages) res.status(200).send(response);
           else res.status(204).send();
@@ -94,13 +87,6 @@ export class QueryRoutes extends CommonRoutesConfig {
               Data: msr,
               ContinuationToken: "",
             };
-            console.log("-----------------------");
-            console.log(packageManifest.Versions?.at(0)?.DefaultLocale);
-            console.log("-----------------------");
-            console.log(response);
-            console.log("-----------------------");
-            console.log(response.Data.Versions);
-            console.log("-----------------------");
 
             ManifestSingleResponseSchemaSchema.parse(response);
             res.status(200).send(response);
