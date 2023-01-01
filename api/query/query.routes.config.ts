@@ -5,6 +5,7 @@ import { collections } from "../../common/database";
 import {
   CreateManifestSearchResponseSchema,
   CreatePackageManifestForSingleResponse,
+  ManifestSearchRequestSchemaSchema,
   ManifestSearchResultSchemaSchema,
   ManifestSingleResponseSchemaSchema,
   PackageManifest,
@@ -23,7 +24,36 @@ export class QueryRoutes extends CommonRoutesConfig {
       .post(async (req: express.Request, res: express.Response) => {
         try {
           const search = req.body;
-          const packages = await collections.manifests?.find({}).toArray();
+          const query = ManifestSearchRequestSchemaSchema.parse(search);
+          console.log("-------------QUERY---------------------");
+          console.log(JSON.stringify(search, null, 2));
+          console.log("-------------QUERY---------------------");
+
+          var orConditions: any = [];
+
+          query.Inclusions?.forEach((i) => {
+            var match: any = {};
+            if (i.RequestMatch.MatchType == "Exact") {
+              match[i.PackageMatchField] = i.RequestMatch.KeyWord;
+              orConditions.push(match);
+            } else if (i.RequestMatch.MatchType == "CaseInsensitive") {
+              match[i.PackageMatchField] = {
+                $regex: i.RequestMatch.KeyWord,
+                $options: "i",
+              };
+              orConditions.push(match);
+            } else console.log("UNSUPPORTED MATCH TYPE!"); //TODO support the others
+          });
+
+          //TODO make this support filters which are apparently a real thing?
+          var condition: any = { $or: orConditions };
+          console.log("-------------mongo condition---------------------");
+          console.log(JSON.stringify(condition, null, 2));
+          console.log("-------------mongo condition---------------------");
+
+          const packages = await collections.manifests
+            ?.find(condition)
+            .toArray();
           const msr = packages?.map((p) =>
             CreateManifestSearchResponseSchema(p)
           );
@@ -31,12 +61,15 @@ export class QueryRoutes extends CommonRoutesConfig {
             Data: msr,
             ContinuationToken: "",
           };
+          console.log("PARSING THE MANIFEST SEARCH RESULT SCHEMA SCHEMA");
           ManifestSearchResultSchemaSchema.parse(response);
           if (packages) res.status(200).send(response);
           else res.status(204).send();
         } catch (err) {
           if (err instanceof z.ZodError) {
             console.log(err.issues);
+          } else {
+            console.log(err);
           }
           res
             .status(500)

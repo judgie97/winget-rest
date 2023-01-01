@@ -140,7 +140,7 @@ export const ExpectedReturnCodeSchema = z
 
 export const ExpectedReturnCodesSchema = z.array(ExpectedReturnCodeSchema);
 
-export const UpgradeBehaviourSchema = z.enum(["install", "uninstallPrevious"]);
+export const UpgradeBehaviorSchema = z.enum(["install", "uninstallPrevious"]);
 
 export const CommandsSchema = z.array(z.string().min(1).max(40));
 
@@ -226,24 +226,26 @@ export const UnsupportedOSArchitecturesSchema = z.array(
 
 export const AppsAndFeaturesEntrySchema = z
   .object({
-    DisplayName: z.string().min(1).max(256),
-    Publisher: z.string().min(1).max(256),
-    DisplayVersion: z.string().min(1).max(128),
-    ProductCode: z.string().min(1).max(255),
-    UpgradeCode: z.string().min(1).max(255),
-    InstallerType: z.enum([
-      "msix",
-      "msi",
-      "appx",
-      "exe",
-      "zip",
-      "inno",
-      "nullsoft",
-      "wix",
-      "burn",
-      "pwa",
-      "msstore",
-    ]),
+    DisplayName: z.string().min(1).max(256).optional(),
+    Publisher: z.string().min(1).max(256).optional(),
+    DisplayVersion: z.string().min(1).max(128).optional(),
+    ProductCode: z.string().min(1).max(255).optional(),
+    UpgradeCode: z.string().min(1).max(255).optional(),
+    InstallerType: z
+      .enum([
+        "msix",
+        "msi",
+        "appx",
+        "exe",
+        "zip",
+        "inno",
+        "nullsoft",
+        "wix",
+        "burn",
+        "pwa",
+        "msstore",
+      ])
+      .optional(),
   })
   .strict();
 
@@ -300,7 +302,7 @@ export const InstallerSchema = z
     InstallerSwitches: InstallerSwitchesSchema,
     InstallerSuccessCodes: InstallerSuccessCodesSchema,
     ExpectedReturnCodes: ExpectedReturnCodesSchema,
-    UpgradeBehaviour: UpgradeBehaviourSchema,
+    UpgradeBehaviour: UpgradeBehaviorSchema,
     Commands: CommandsSchema,
     Protocols: ProtocolsSchema,
     FileExtensions: FileExtensionsSchema,
@@ -408,38 +410,38 @@ export const OptionalLocaleSchema = z
 
 export const InstallerSchemaSchema = z
   .object({
-    InstallerIdentifier: InstallerIdentifierSchema,
-    InstallerSha256: InstallerSha256Schema,
-    InstallerUrl: URLSchema,
+    InstallerIdentifier: InstallerIdentifierSchema.optional(),
+    InstallerSha256: InstallerSha256Schema.optional(),
+    InstallerUrl: URLSchema.optional(),
     Architecture: ArchitectureSchema,
-    InstallerLocale: LocaleSchema,
-    Platform: PlatformSchema,
-    MinimumOSVersion: MinimumOSVersionSchema,
+    InstallerLocale: LocaleSchema.optional(),
+    Platform: PlatformSchema.optional(),
+    MinimumOSVersion: MinimumOSVersionSchema.optional(),
     InstallerType: InstallerTypeSchema,
-    Scope: ScopeSchema,
-    SignatureSha256: SignatureSha256Schema,
-    InstallModes: InstallModesSchema,
-    InstallerSwitches: InstallerSwitchesSchema,
-    InstallerSuccessCodes: InstallerSuccessCodesSchema,
-    ExpectedReturnCodes: ExpectedReturnCodesSchema,
-    UpgradeBehaviour: UpgradeBehaviourSchema,
-    Commands: CommandsSchema,
-    Protocols: ProtocolsSchema,
-    FileExtensions: FileExtensionsSchema,
-    Dependencies: DependenciesSchema,
-    PackageFamilyName: PackageFamilyNameSchema,
-    ProductCode: ProductCodeSchema,
-    Capabilities: CapabilitiesSchema,
-    RestrictedCapabilities: RestrictedCapabilitiesSchema,
-    MSStoreProductIdentifier: MSStoreProductIdentifierSchema,
-    InstallerAbortsTerminal: InstallerAbortsTerminalSchema,
-    ReleaseDate: ReleaseDateSchema,
-    InstallLocationRequired: InstallLocationRequiredSchema,
-    RequireExplicitUpgrade: RequireExplicitUpgradeSchema,
-    ElevationRequirement: ElevationRequirementSchema,
-    UnsupportedOSArchitectures: UnsupportedOSArchitecturesSchema,
-    AppsAndFeaturesEntries: AppsAndFeaturesEntriesSchema,
-    Markets: MarketsSchema,
+    Scope: ScopeSchema.optional(),
+    SignatureSha256: SignatureSha256Schema.optional(),
+    InstallModes: InstallModesSchema.optional(),
+    InstallerSwitches: InstallerSwitchesSchema.optional(),
+    InstallerSuccessCodes: InstallerSuccessCodesSchema.optional(),
+    ExpectedReturnCodes: ExpectedReturnCodesSchema.optional(),
+    UpgradeBehavior: UpgradeBehaviorSchema.optional(),
+    Commands: CommandsSchema.optional(),
+    Protocols: ProtocolsSchema.optional(),
+    FileExtensions: FileExtensionsSchema.optional(),
+    Dependencies: DependenciesSchema.optional(),
+    PackageFamilyName: PackageFamilyNameSchema.optional(),
+    ProductCode: ProductCodeSchema.optional(),
+    Capabilities: CapabilitiesSchema.optional(),
+    RestrictedCapabilities: RestrictedCapabilitiesSchema.optional(),
+    MSStoreProductIdentifier: MSStoreProductIdentifierSchema.optional(),
+    InstallerAbortsTerminal: InstallerAbortsTerminalSchema.optional(),
+    ReleaseDate: ReleaseDateSchema.optional(),
+    InstallLocationRequired: InstallLocationRequiredSchema.optional(),
+    RequireExplicitUpgrade: RequireExplicitUpgradeSchema.optional(),
+    ElevationRequirement: ElevationRequirementSchema.optional(),
+    UnsupportedOSArchitectures: UnsupportedOSArchitecturesSchema.optional(),
+    AppsAndFeaturesEntries: AppsAndFeaturesEntriesSchema.optional(),
+    Markets: MarketsSchema.optional(),
   })
   .strict();
 
@@ -628,13 +630,13 @@ export const SearchRequestInclusionAndFilterSchemaSchema = z
   })
   .strict();
 
-export const ManifestSearchRequestSchema = z
+export const ManifestSearchRequestSchemaSchema = z
   .object({
-    MaximumResults: z.number().int(),
-    FetchAllManifests: z.boolean(),
-    Query: SearchRequestMatchSchema,
-    Inclusions: z.array(SearchRequestInclusionAndFilterSchemaSchema),
-    Filters: z.array(SearchRequestInclusionAndFilterSchemaSchema),
+    MaximumResults: z.number().int().optional(),
+    FetchAllManifests: z.boolean().optional(),
+    Query: SearchRequestMatchSchema.optional(),
+    Inclusions: z.array(SearchRequestInclusionAndFilterSchemaSchema).optional(),
+    Filters: z.array(SearchRequestInclusionAndFilterSchemaSchema).optional(),
   })
   .strict();
 
