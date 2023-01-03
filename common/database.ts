@@ -3,9 +3,11 @@ import * as dotenv from "dotenv";
 import debug from "debug";
 import { z } from "zod";
 import { PackageManifest } from "../api/api";
+import { User } from "../users/user";
 
 export const collections: {
   manifests?: mongodb.Collection<PackageManifest>;
+  users?: mongodb.Collection<User>;
 } = {};
 
 const debugLog: debug.IDebugger = debug("app");
@@ -33,6 +35,8 @@ export async function connectToDatabase() {
   const manifestsCollection = db.collection<PackageManifest>(
     process.env.DB_COLLECTION_NAME
   );
+  const usersCollection = db.collection<User>("users");
   collections.manifests = manifestsCollection;
+  collections.users = usersCollection;
   debugLog(`Connected to database`);
 }

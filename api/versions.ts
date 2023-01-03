@@ -1,4 +1,4 @@
-import { CommonRoutesConfig } from "../common/common.routes.config";
+import { BaseRouter } from "../common/base_router";
 import express from "express";
 import { collections } from "../common/database";
 import {
@@ -7,7 +7,7 @@ import {
 } from "./api";
 import { z } from "zod";
 
-export class VersionsRoutes extends CommonRoutesConfig {
+export class VersionsRoutes extends BaseRouter {
   constructor(app: express.Application) {
     super(app, "VersisonsRoutes");
   }

@@ -1,4 +1,4 @@
-import { CommonRoutesConfig } from "../common/common.routes.config";
+import { BaseRouter } from "../common/base_router";
 import express from "express";
 //import { ManifestSearchRequest, ManifestSearchResult } from "./query";
 import { collections } from "../common/database";
@@ -12,7 +12,7 @@ import {
 } from "./api";
 import { z } from "zod";
 
-export class QueryRoutes extends CommonRoutesConfig {
+export class QueryRoutes extends BaseRouter {
   constructor(app: express.Application) {
     super(app, "QueryRoutes");
   }
