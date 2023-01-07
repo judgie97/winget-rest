@@ -42,7 +42,6 @@ export class VersionsRoutes extends BaseRouter {
 
         const packageIdentifier = req.params.packageIdentifier;
         const versionInformation = req.body;
-        const packageVersion = versionInformation.PackageVersion;
         try {
           VersionSchemaSchema.parse(versionInformation);
         } catch (err) {

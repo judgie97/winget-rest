@@ -1,6 +1,5 @@
 import { BaseRouter } from "../common/base_router";
 import express from "express";
-//import { ManifestSearchRequest, ManifestSearchResult } from "./query";
 import { collections } from "../common/database";
 import {
   CreateManifestSearchResponseSchema,
@@ -99,7 +98,7 @@ export class QueryRoutes extends BaseRouter {
       });
     this.app
       .route(`/packageManifests/:packageIdentifier`)
-      //MANIFESTSEARCH/PACKAGEIDENTIFER/GET
+      //PACKAGEMANIFESTS/PACKAGEIDENTIFER/GET
       .get(async (req: express.Request, res: express.Response) => {
         try {
           const packageManifest = (await collections.manifests?.findOne(

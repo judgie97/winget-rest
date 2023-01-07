@@ -2,7 +2,6 @@ import { BaseRouter } from "../common/base_router";
 import express from "express";
 import { InformationResponseSchemaSchema } from "./api";
 import { z } from "zod";
-import { UsersRoutes } from "../users/users";
 
 export class ServerRoutes extends BaseRouter {
   constructor(app: express.Application) {

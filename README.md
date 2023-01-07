@@ -48,7 +48,7 @@ Please do :)
 | POST   | /packageManifests                                                                  | No Implementation      |
 | PUT    | /packageManifests/packageIdentifier                                                | No Implementation      |
 | DELETE | /packageManifests/packageIdentifier                                                | No Implementation      |
-| GET    | /packageManifests/packageIdentifier                                                | No Implementation      |
+| GET    | /packageManifests/packageIdentifier                                                | Implemented            |
 | POST   | /manifestSearch                                                                    | Partial Implementation |
 |        |                                                                                    |
 | GET    | /information                                                                       | Partial Implementation |
