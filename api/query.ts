@@ -24,9 +24,31 @@ export class QueryRoutes extends BaseRouter {
       .post(async (req: express.Request, res: express.Response) => {
         try {
           const search = req.body;
+          console.log(JSON.stringify(search, null, 2));
           const query = ManifestSearchRequestSchemaSchema.parse(search);
 
           var orConditions: any = [];
+
+          if (query.Query != null) {
+            if (query.Inclusions == null) query.Inclusions = [];
+            [
+              "PackageIdentifier",
+              "PackageName",
+              "Moniker",
+              "Command",
+              "Tag",
+              "PackageFamilyName",
+              "ProductCode",
+              "NormalizedPackageNameAndPublisher",
+              "Market",
+            ].forEach((q) => {
+              const inc = {
+                PackageMatchField: q,
+                RequestMatch: query.Query,
+              } as any;
+              query.Inclusions!.push(inc);
+            });
+          }
 
           query.Inclusions?.forEach((i) => {
             var match: any = {};
@@ -36,6 +58,12 @@ export class QueryRoutes extends BaseRouter {
             } else if (i.RequestMatch.MatchType == "CaseInsensitive") {
               match[i.PackageMatchField] = {
                 $regex: i.RequestMatch.KeyWord,
+                $options: "i",
+              };
+              orConditions.push(match);
+            } else if (i.RequestMatch.MatchType == "Substring") {
+              match[i.PackageMatchField] = {
+                $regex: ".*" + i.RequestMatch.KeyWord + "*.",
                 $options: "i",
               };
               orConditions.push(match);
@@ -74,7 +102,6 @@ export class QueryRoutes extends BaseRouter {
       //MANIFESTSEARCH/PACKAGEIDENTIFER/GET
       .get(async (req: express.Request, res: express.Response) => {
         try {
-          const search = req.body;
           const packageManifest = (await collections.manifests?.findOne(
             {
               PackageIdentifier: req.params.packageIdentifier,
